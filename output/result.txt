@@ -1,0 +1,12 @@
+AWS CLI is already installed.
+AWS CLI is installed.
+AWS CLI is already configured. Proceeding to list resources...
+Listing S3 Buckets in us-east-1
+{
+    "Buckets": [],
+    "Owner": {
+        "DisplayName": "pavankumar.vinjamuri",
+        "ID": "08ad6ec4408f2f0cdf09f92c5d2b8020c2386b87b249056ba45eb0fb5e86db9a"
+    },
+    "Prefix": null
+}
