@@ -35,75 +35,19 @@ fi
 
 # Assign the arguments to variables and convert the service to lowercase
 aws_region=$1
-aws_service=$(echo "$2" | tr '[:upper:]' '[:lower:]')
+aws_service=$2
 
-# Check if the AWS CLI is installed
-# Check if the AWS CLI is installed
-if ! command -v aws &> /dev/null; then
-    echo "AWS CLI is not installed. Attempting to install AWS CLI..."
-
-    # Check if unzip is installed
-    if ! command -v unzip &> /dev/null; then
-        echo "Installing unzip..."
-        sudo apt-get update && sudo apt-get install -y unzip
-    fi
-
-    # Download and install AWS CLI
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    unzip awscliv2.zip
-    sudo ./aws/install
-
-    # Verify installation
-    if ! command -v aws &> /dev/null; then
-        echo "AWS CLI installation failed. Please install manually."
-        exit 1
-    else
-        echo "AWS CLI installed successfully."
-    fi
-else
-    echo "AWS CLI is already installed."
-fi
-
-
-# Check if the AWS CLI is configured
 # Check if the AWS CLI is installed
 if ! command -v aws &> /dev/null; then
     echo "AWS CLI is not installed. Please install the AWS CLI and try again."
     exit 1
-else
-    echo "AWS CLI is installed."
 fi
 
-# Check if AWS CLI is configured
-if [ ! -f ~/.aws/credentials ] || [ ! -f ~/.aws/config ]; then
-    echo "AWS CLI is not configured. Starting configuration..."
-    
-    read -p "Enter your AWS Access Key ID: " access_key
-    read -p "Enter your AWS Secret Access Key: " secret_key
-    read -p "Enter your Default region name (e.g., us-east-1): " default_region
-    read -p "Enter your Output format (json, yaml, text): " output_format
-
-    mkdir -p ~/.aws
-
-    # Create credentials file
-    cat > ~/.aws/credentials <<EOL
-[default]
-aws_access_key_id = $access_key
-aws_secret_access_key = $secret_key
-EOL
-
-    # Create config file
-    cat > ~/.aws/config <<EOL
-[default]
-region = $default_region
-output = $output_format
-EOL
-
-    echo "AWS CLI configured successfully."
-else
-    echo "AWS CLI is already configured. Proceeding to list resources..."
+# Check if the AWS CLI is configured
+if [ ! -d ~/.aws ]; then
+    echo "AWS CLI is not configured. Please configure the AWS CLI and try again."
+    exit 1
 fi
-
 
 # List the resources based on the service
 case $aws_service in
